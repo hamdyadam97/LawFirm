@@ -3,8 +3,8 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from LawFirm.models import LawFirm
-from User.models import User, LawyerProfile, CustomerProfile
+from LawFirm.models import LawFirm, LawyerProfile
+from .models import User, CustomerProfile
 
 
 @receiver(post_save, sender=User)

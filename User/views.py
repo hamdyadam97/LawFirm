@@ -24,32 +24,11 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
     View to retrieve, update, or delete a user.
     """
-    queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
 
-
-# class UserPhoneNumberListCreateView(generics.ListCreateAPIView):
-#     """
-#     View to list all phone numbers and create a new phone number.
-#     """
-#     queryset = UserPhoneNumber.objects.all()
-#     serializer_class = UserPhoneNumberSerializer
-#     permission_classes = [IsAuthenticated]
-#
-#     def perform_create(self, serializer):
-#         # Add custom creation logic here, if needed
-#         serializer.save()
-
-
-# class UserPhoneNumberDetailView(generics.RetrieveUpdateDestroyAPIView):
-#     """
-#     View to retrieve, update, or delete a phone number.
-#     """
-#     queryset = UserPhoneNumber.objects.all()
-#     serializer_class = UserPhoneNumberSerializer
-#     permission_classes = [IsAuthenticated]
-
+    def get_object(self):
+        return self.request.user
 
 
 

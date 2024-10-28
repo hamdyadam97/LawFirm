@@ -1,4 +1,5 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from django.shortcuts import get_object_or_404
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 
 from .models import LawFirm, LawyerProfile
@@ -6,7 +7,7 @@ from .serializers import LawFirmSerializer, LawyerProfileSerializer
 
 
 # List and Create
-class LawFirmListCreateAPIView(ListCreateAPIView):
+class LawFirmListCreateAPIView(ListAPIView):
     queryset = LawFirm.objects.all()
     serializer_class = LawFirmSerializer
 
@@ -15,13 +16,24 @@ class LawFirmRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = LawFirm.objects.all()
     serializer_class = LawFirmSerializer
 
+    def get_object(self):
+        profile = get_object_or_404(LawFirm, user=self.request.user)
+        return profile
 
 
-class LawyerProfileListCreateView(ListCreateAPIView):
+
+class LawyerProfileListCreateView(ListAPIView):
     queryset = LawyerProfile.objects.all()
     serializer_class = LawyerProfileSerializer
     permission_classes = [IsAuthenticated]
+
+
 class LawyerProfileRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
-    queryset = LawyerProfile.objects.all()
+
     serializer_class = LawyerProfileSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+
+        profile = get_object_or_404(LawyerProfile, user=self.request.user)
+        return profile
