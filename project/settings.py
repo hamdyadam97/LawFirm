@@ -141,46 +141,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-#Add django_tenants.routers.TenantSyncRouter to your DATABASE_ROUTERS setting,
-# so that the correct apps can be synced, depending on what’s being synced (shared or tenant).
-#
-# DATABASE_ROUTERS = (
-#     'django_tenants.routers.TenantSyncRouter',
-# )
-
-
-# SHARED_APPS = (
-#     'django_tenants',  # mandatory
-#     'Tenant', # you must list the app where your tenant model resides in
-#     'drf_yasg',
-#     'django.contrib.contenttypes',
-#     'django.contrib.staticfiles',
-#     # everything below here is optional
-#     'django.contrib.auth',
-#     'django.contrib.sessions',
-#     'django.contrib.sites',
-#     'django.contrib.messages',
-#     'django.contrib.admin',
-# )
-#
-# TENANT_APPS = (
-#     # your tenant-specific apps
-#     'LawFirm',
-#     'User',
-#     'Blog',
-#     'Job',
-#     'Consultation',
-# )
-
-# INSTALLED_APPS = list(SHARED_APPS) + [app for app in TENANT_APPS if app not in SHARED_APPS]
-
-
-# TENANT_MODEL = "Tenant.Client" # app.Model
-#
-# TENANT_DOMAIN_MODEL = "Tenant.Domain"  # app.Model
-
-
-SITE_ID = 1
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True

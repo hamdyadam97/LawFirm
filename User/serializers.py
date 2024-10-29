@@ -1,5 +1,6 @@
 from datetime import timezone
 
+from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from django.utils.translation import gettext_lazy as _
@@ -60,12 +61,14 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class LoginSerializer(TokenObtainPairSerializer):
-
+    username_field = get_user_model().USERNAME_FIELD
     def validate(self, attrs):
         try:
             super().validate(attrs)
-        except AuthenticationFailed as ex:
+        except AuthenticationFailed:
             raise serializers.ValidationError(_("Incorrect email or password"))
+
+        # Customize the response data with user information if desired
         return UserSerializer(instance=self.user, context=self.context).data
 
 

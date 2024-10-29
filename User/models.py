@@ -23,9 +23,34 @@ def validate_username_user(username):
 
 
 
+from django.contrib.auth.models import UserManager as DjangoUserManager
+
 class UserManager(DjangoUserManager):
-    def get_by_natural_key(self, username):
-        return self.get(**{f'{self.model.USERNAME_FIELD}__iexact': username })
+    def get_by_natural_key(self, email):
+        return self.get(**{f'{self.model.USERNAME_FIELD}__iexact': email })
+
+    def create_user(self, email, username, password=None, **extra_fields):
+        """Create and save a regular User with the given email and password."""
+        if not email:
+            raise ValueError('The Email field must be set')
+        email = self.normalize_email(email)
+        user = self.model(email=email, username=username, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, username, password=None, **extra_fields):
+        """Create and save a SuperUser with the given email and password."""
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+
+        return self.create_user(email, username, password, **extra_fields)
+
 
 
 def upload_to_profile_pic(instance, filename):
@@ -100,12 +125,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         blank=True,
         help_text='Specific permissions for this user.'
     )
-    def save(self, *args, **kwargs):
-        if self.email:
-            self.email_username = self.email
-        else:
-            self.email_username = self.username
-        super(User, self).save(*args, **kwargs)
+
+
 
     class Meta:
         verbose_name = _('user')

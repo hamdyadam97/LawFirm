@@ -13,9 +13,8 @@ class LawFirmListCreateAPIView(ListAPIView):
 
 # Retrieve, Update, and Delete
 class LawFirmRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
-    queryset = LawFirm.objects.all()
     serializer_class = LawFirmSerializer
-
+    permission_classes = [IsAuthenticated]
     def get_object(self):
         profile = get_object_or_404(LawFirm, user=self.request.user)
         return profile
