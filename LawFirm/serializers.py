@@ -16,3 +16,10 @@ class LawyerProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = LawyerProfile
         fields = '__all__'
+
+    def update(self, instance, validated_data):
+        # Loop through each attribute and set it on the instance
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()  # Save the updated instance to the database
+        return instance
