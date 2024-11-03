@@ -5,6 +5,8 @@ from .models import LawFirm, LawyerProfile
 
 
 class LawFirmSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
     class Meta:
         model = LawFirm
         fields = '__all__'

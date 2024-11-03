@@ -51,11 +51,12 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['username', 'display_name', 'email', 'dob', 'gender', 'phone_number', 'phone_country_code','refresh',
                   'access','user_type','is_email_verified','email_verification_code','date_joined','is_phone_verified',
-                  'avatar','phone_country_code','bio','password']
+                  'avatar','phone_country_code','bio','password','id']
         extra_kwargs = {
             'password': {'write_only': True},
             'dob': {'required': True},
             'gender': {'required': True},
+            'id': {'read_only': True},
 
         }
 

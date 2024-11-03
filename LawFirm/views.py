@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -53,3 +53,19 @@ class LawyerProfileRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     def perform_update(self, serializer):
         # Save the serializer to update the object in the database
         serializer.save()
+
+class LawFirmRetrieveAPIView(RetrieveAPIView):
+    serializer_class = LawFirmSerializer
+    permission_classes = [IsAuthenticated]
+    def get_object(self):
+        profile = get_object_or_404(LawFirm, user=self.request.user)
+        return profile
+
+
+
+class LawFirmRetrieveOwnerAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = LawFirmSerializer
+    permission_classes = [IsAuthenticated]
+    def get_object(self):
+        profile = get_object_or_404(LawFirm, owner=self.request.user)
+        return profile

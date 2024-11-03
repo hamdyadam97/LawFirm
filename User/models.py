@@ -3,14 +3,13 @@ import uuid
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
-from django.template.loader import render_to_string
-from django.utils.crypto import get_random_string
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 from django.contrib.auth.models import PermissionsMixin, UserManager as DjangoUserManager
+
 
 
 def validate_username_user(username):
@@ -82,6 +81,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         },
     )
     user_type = models.CharField(max_length=50, choices=UserTypeChoices.choices, default=UserTypeChoices.CUSTOMER)
+
     display_name = models.CharField(max_length=150)
     email = models.EmailField(_('email address'),unique=True)
     avatar = models.ImageField(blank=True, null=True, upload_to='upload_to_profile_pic',)
@@ -150,6 +150,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     @cached_property
     def token(self):
         return RefreshToken.for_user(self)
+
+
+class LawFirmUser(User):
+    # Fields specific to law firms
+    firm_name = models.CharField(max_length=255)
+    firm_license_number = models.CharField(max_length=100)
 
 
 class CustomerProfile(models.Model):

@@ -2,6 +2,7 @@ from django.urls import path
 from .views import (
     LawFirmListCreateAPIView,
     LawFirmRetrieveUpdateDestroyAPIView, LawyerProfileListCreateView, LawyerProfileRetrieveUpdateDestroyView,
+    LawFirmRetrieveOwnerAPIView,
 
 )
 app_name = 'LawFirm'
@@ -12,4 +13,5 @@ urlpatterns = [
     path('lawfirm_profile/', LawFirmRetrieveUpdateDestroyAPIView.as_view(), name='lawfirm_detail'),
     path('lawyer-profile-list/', LawyerProfileListCreateView.as_view(), name='lawyer-profile-list'),
     path('lawyer-profile/', LawyerProfileRetrieveUpdateDestroyView.as_view(), name='lawyer-profile-detail'),
+    path('lawfirm-profile-user/', LawFirmRetrieveOwnerAPIView.as_view(), name='lawfirm-profile-detail-user'),
 ]
